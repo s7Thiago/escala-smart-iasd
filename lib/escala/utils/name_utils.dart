@@ -2,35 +2,35 @@
 import '../enums/date_names.dart';
 
 class NameUtils {
-  static MonthDayNames getMonthName(int month) {
+  static MonthNames getMonthName(int month) {
   switch (month) {
     case 1:
-      return MonthDayNames.janeiro;
+      return MonthNames.janeiro;
     case 2:
-      return MonthDayNames.fevereiro;
+      return MonthNames.fevereiro;
     case 3:
-      return MonthDayNames.marco;
+      return MonthNames.marco;
     case 4:
-      return MonthDayNames.abril;
+      return MonthNames.abril;
     case 5:
-      return MonthDayNames.maio;
+      return MonthNames.maio;
     case 6:
-      return MonthDayNames.junho;
+      return MonthNames.junho;
     case 7:
-      return MonthDayNames.julho;
+      return MonthNames.julho;
     case 8:
-      return MonthDayNames.agosto;
+      return MonthNames.agosto;
     case 9:
-      return MonthDayNames.setembro;
+      return MonthNames.setembro;
     case 10:
-      return MonthDayNames.outubro;
+      return MonthNames.outubro;
     case 11:
-      return MonthDayNames.novembro;
+      return MonthNames.novembro;
     case 12:
-      return MonthDayNames.dezembro;
+      return MonthNames.dezembro;
 
     default:
-      return MonthDayNames.invalid;
+      return MonthNames.invalid;
   }
 }
 

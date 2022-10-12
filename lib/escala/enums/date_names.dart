@@ -9,7 +9,7 @@ enum WeekDayNames {
   invalid
 }
 
-enum MonthDayNames {
+enum MonthNames {
   janeiro,
   fevereiro,
   marco,

@@ -2,12 +2,14 @@ import '../enums/date_names.dart';
 import 'component.dart';
 
 class Month {
-  final MonthDayNames name;
+  final MonthNames name;
+  final int year;
   final List<Week> weeks;
 
   Month({
     required this.name,
     required this.weeks,
+    required this.year,
   });
 
   // Conta o número de dias do mês
@@ -56,6 +58,10 @@ class Day {
     this.dateTimeRepresentation,
     this.component,
   });
+
+  bool get isValid => weekDayName != WeekDayNames.invalid;
+
+  bool get isWeekend => weekDayName == WeekDayNames.sabado || weekDayName == WeekDayNames.domingo;
 
   @override
   String toString() =>
