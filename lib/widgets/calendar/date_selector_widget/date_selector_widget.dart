@@ -12,11 +12,10 @@ class DateSelectorWidget extends StatelessWidget {
     final provider = Provider.of<DateSelector>(context, listen: true);
     const double height = 250.0;
 
-    Color? pickerTextColor = Colors.blueAccent[900];
-    TextStyle pickerTextStyle = TextStyle(
+    TextStyle pickerTextStyle = const TextStyle(
       fontWeight: FontWeight.w900,
       fontSize: 18,
-      color: pickerTextColor,
+      color: Colors.white,
     );
 
     // Gradient container
@@ -33,103 +32,123 @@ class DateSelectorWidget extends StatelessWidget {
           ),
         );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        // ========================= MES =========================
+        Divider(color: Colors.grey[400], height: 40, indent: 20, endIndent: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ========================= MES =========================
 
-        Expanded(
-          child: Column(
-            children: [
-              Text('Escolha o mês: ${provider.monthList[provider.selectedMonth - 1]}'),
-              SizedBox(
-                height: height,
-                child: Stack(
-                  children: [
-                    // Gradient container
-                    buildGradient(),
+            Expanded(
+              child: Column(
+                children: [
+                  // Text('Escolha o mês: ${provider.monthList[provider.selectedMonth - 1]}'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      'Escolha o mês',
+                      style: pickerTextStyle.copyWith(color: Colors.blue),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height,
+                    child: Stack(
+                      children: [
+                        // Gradient container
+                        buildGradient(),
 
-                    CupertinoPicker(
-                      looping: true,
-                      itemExtent: 45,
-                      offAxisFraction: 8,
-                      scrollController: FixedExtentScrollController(
-                          initialItem: provider.selectedMonth - 1),
-                      diameterRatio: 10,
-                      onSelectedItemChanged: (value)
-                          {
+                        CupertinoPicker(
+                          looping: true,
+                          itemExtent: 45,
+                          offAxisFraction: 8,
+                          scrollController: FixedExtentScrollController(
+                              initialItem: provider.selectedMonth - 1),
+                          diameterRatio: 10,
+                          onSelectedItemChanged: (value) {
                             print('Value atual: $value');
                             provider.updateMonth = value;
                           },
-                      children: [
-                        ...List.generate(
-                          MonthNames.values.length - 1,
-                          (index) => Text(
-                            '${provider.monthList[index].toUpperCase()} [ $index ]',
-                            style: pickerTextStyle,
-                          ),
+                          children: [
+                            ...List.generate(
+                              MonthNames.values.length - 1,
+                              (index) => Text(
+                                '${provider.monthList[index].toUpperCase()}  ${index + 1}',
+                                style: pickerTextStyle,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
 
-        // ========================= ANO =========================
+            // ========================= ANO =========================
 
-        Expanded(
-          child: Column(
-            children: [
-              Text('Escolha o ano: ${provider.yearList[provider.yearList.indexOf(provider.selectedYear)]}'),
-              SizedBox(
-                height: height,
-                child: Stack(
-                  children: [
-                    // Gradient container
-                    buildGradient(),
+            Expanded(
+              child: Column(
+                children: [
+                  // Text('Escolha o ano: ${provider.yearList[provider.yearList.indexOf(provider.selectedYear)]}'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      'Escolha o ano',
+                      style: pickerTextStyle.copyWith(color: Colors.blue),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height,
+                    child: Stack(
+                      children: [
+                        // Gradient container
+                        buildGradient(),
 
-                    CupertinoPicker(
-                      itemExtent: 45,
-                      offAxisFraction: -8,
-                      scrollController:
-                          FixedExtentScrollController(initialItem: 14),
-                      diameterRatio: 10,
-                      onSelectedItemChanged: (value) =>
-                          {
+                        CupertinoPicker(
+                          looping: true,
+                          itemExtent: 45,
+                          offAxisFraction: -8,
+                          scrollController:
+                              FixedExtentScrollController(initialItem: 14),
+                          diameterRatio: 10,
+                          onSelectedItemChanged: (value) => {
                             provider.updateYear = provider.yearList[value],
                           },
-                      children: [
-                        // Year list part 1
-                        ...List.generate(
-                          14,
-                          (index) => Text(
-                            '${provider.yearList[index]} [ $index ]',
-                            style: pickerTextStyle.copyWith(
-                                color: Colors.blue[700]),
-                          ),
-                        ),
+                          children: [
+                            // Year list part 1
+                            ...List.generate(
+                              14,
+                              (index) => Text(
+                                '${provider.yearList[index]}',
+                                style: pickerTextStyle.copyWith(
+                                  color: Colors.blue[700],
+                                  fontSize: 25
+                                ),
+                              ),
+                            ),
 
-                        // Year list part 2
-                        ...List.generate(
-                          15,
-                          (index) => Text(
-                            '${provider.yearList[14 + index]} [ $index ]',
-                            style: pickerTextStyle,
-                          ),
-                        )
+                            // Year list part 2
+                            ...List.generate(
+                              15,
+                              (index) => Text(
+                                '${provider.yearList[14 + index]}',
+                                style: pickerTextStyle.copyWith(fontSize: 30),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
 
-        // =========================
+            // =========================
+          ],
+        ),
       ],
     );
   }

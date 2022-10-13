@@ -1,3 +1,5 @@
+import 'package:iasd_escala/escala/models/component.dart';
+
 import '../enums/date_names.dart';
 import '../models/month_models.dart';
 import './name_utils.dart';
@@ -27,7 +29,12 @@ class AppDateUtils {
     List<Day> fillDays = baseDate.weekday!=7? List.generate(
         baseDate.weekday,
         (index) =>
-            Day(monthDayNumber: 0, weekDayName: NameUtils.getWeekDayName(0))) : [];
+            Day(
+            monthDayNumber: 0,
+            weekDayName: NameUtils.getWeekDayName(0),
+            weekIndex: weekIndexController,
+            dayIndexInWeek: baseDate.weekday)) : [];
+
     days.addAll(fillDays);
 
     while (baseDate.month == month) {
@@ -35,7 +42,9 @@ class AppDateUtils {
       Day day = Day(
           monthDayNumber: baseDate.day,
           weekDayName: NameUtils.getWeekDayName(baseDate.weekday),
-          dateTimeRepresentation: baseDate);
+          dateTimeRepresentation: baseDate,
+          weekIndex: weekIndexController,
+          dayIndexInWeek: baseDate.weekday);
 
       days.add(day);
 
@@ -78,9 +87,38 @@ class AppDateUtils {
     weeks.last.days.addAll(List.generate(
         weekEndDaysCount,
         (index) =>
-            Day(monthDayNumber: 0, weekDayName: NameUtils.getWeekDayName(0))));
+            Day(
+            monthDayNumber: 0,
+            weekDayName: NameUtils.getWeekDayName(0),
+            weekIndex: weekIndexController,
+            dayIndexInWeek: baseDate.weekday)));
 
-    return Month(name: monthName, weeks: weeks, year: year);
+            Month result = Month(name: monthName, weeks: weeks, year: year);
+
+      // setting the first and last object day of month as true
+      result.weeks.first.days.first.isFirstDayOfFirstWeek = true;
+      result.weeks.last.days.last.isLastDayOfLastWeek = true;
+
+      // Setting today true to the day that is today
+      final now = DateTime.now();
+      for (var w in result.weeks) {
+        for (var d in w.days) {
+
+          if(d.monthDayNumber % 2 == 0 && d.isValid) {
+            d.component = const Component(name: 'Fulano', availableDays: []);
+          }
+
+          if(d.isValid){
+            if(d.dateTimeRepresentation!.day == now.day &&
+            d.dateTimeRepresentation!.month == now.month &&
+            d.dateTimeRepresentation!.year == now.year) {
+              d.isToday = true;
+          }}
+        }
+
+      }
+
+    return result;
   }
 
   static int getEndOfMonth({int month = 1, int year = 1990}) {

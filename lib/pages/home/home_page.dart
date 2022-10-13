@@ -23,12 +23,12 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        title: Text('${(month!.name.name.substring(0, 3)).toUpperCase()} / ${month.year}'),
       ),
       body: Column(
         children: [
           // Calendar
-          MonthWidget(month: month!),
+          MonthWidget(month: month),
 
           const Spacer(),
 

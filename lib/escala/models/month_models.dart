@@ -47,25 +47,35 @@ class Week {
 }
 
 class Day {
+  final int weekIndex;
+  final int dayIndexInWeek;
   final int monthDayNumber;
+  bool isLastDayOfLastWeek;
+  bool isToday;
+  bool isFirstDayOfFirstWeek;
+  Component? component;
   final WeekDayNames weekDayName;
-  final Component? component;
   final DateTime? dateTimeRepresentation;
 
   Day({
-    required this.monthDayNumber,
-    required this.weekDayName,
-    this.dateTimeRepresentation,
     this.component,
+    this.isLastDayOfLastWeek = false,
+    this.isFirstDayOfFirstWeek = false,
+    this.isToday = false,
+    this.dateTimeRepresentation,
+    required this.weekIndex,
+    required this.weekDayName,
+    required this.monthDayNumber,
+    required this.dayIndexInWeek,
   });
 
   bool get isValid => weekDayName != WeekDayNames.invalid;
 
-  bool get isWeekend => weekDayName == WeekDayNames.sabado || weekDayName == WeekDayNames.domingo;
+  bool get isWeekend =>
+      weekDayName == WeekDayNames.sabado || weekDayName == WeekDayNames.domingo;
 
   @override
-  String toString() =>
-  weekDayName == WeekDayNames.invalid?
-   '\nDay( ############ )':
-      '\nDay($monthDayNumber - ${weekDayName.name} [${component?.name ?? '----'}])';
+  String toString() => weekDayName == WeekDayNames.invalid
+      ? '\nDay( ############ )'
+      : '\nDay($monthDayNumber - ${weekDayName.name} [${component?.name ?? '----'}])';
 }

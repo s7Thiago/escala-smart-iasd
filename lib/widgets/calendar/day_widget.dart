@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/shared/sizes.dart';
 
 class DayWidget extends StatelessWidget {
   final Day day;
@@ -8,20 +9,94 @@ class DayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getDayWidgetColor() {
+      if (day.isValid) {
+        if (day.isToday) return Colors.purpleAccent;
+
+        if (day.isWeekend) return Colors.blueGrey;
+        return Colors.blue;
+      } else {
+        if (day.isFirstDayOfFirstWeek || day.isLastDayOfLastWeek) {
+          return Colors.black26;
+        }
+
+        return Colors.black26;
+      }
+    }
+
+    getDayWidgetPadding() {
+      if (day.isValid) {
+        return const EdgeInsets.symmetric(
+            horizontal: AppSizes.defaultDayWidgetHorizontalPadding);
+      } else {
+        // if (day.isFirstDayOfFirstWeek) return EdgeInsets.only(left: defaultPadding);
+        // if (day.isLastDayOfLastWeek) return EdgeInsets.only(right: defaultPadding);
+
+        return const EdgeInsets.symmetric(
+            horizontal: AppSizes.defaultDayWidgetHorizontalPadding);
+      }
+    }
+
+    getDayWidgetWidth() {
+      if (day.isValid) {
+        return AppSizes.defaultDayWidgetWidth;
+      } else {
+        // if (day.isFirstDayOfFirstWeek) return defaultWidth + ((day.dayIndexInWeek + 1) * defaultPadding);
+        // if (day.isLastDayOfLastWeek) return defaultWidth + ((day.dayIndexInWeek + 1) * defaultPadding);
+
+        return AppSizes.defaultDayWidgetWidth;
+      }
+    }
+
+    isOccupied() {
+      if (day.component != null) {
+        return true;
+      }
+
+      return false;
+    }
+
     return Container(
-      width: day.isValid ? 30 : 30,
-      height: day.isValid ? 30 : 30,
-      // margin: day.isValid ? const EdgeInsets.all(5) : const EdgeInsets.all(0),
+      width: getDayWidgetWidth(),
+      height: day.isValid
+          ? AppSizes.defaultDayWidgetHeight
+          : AppSizes.defaultDayWidgetHeight,
+      margin: getDayWidgetPadding(),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: day.isValid? day.isWeekend? Colors.blueGrey : Colors.blue : Colors.black26,
+        color: getDayWidgetColor(),
+        border: isOccupied()
+            ? const Border.fromBorderSide(
+                BorderSide(color: Colors.deepOrange, width: 5),
+              )
+            : null,
       ),
       child: Text(
-        day.isValid ? day.monthDayNumber < 10? '0${day.monthDayNumber}'  : '${day.monthDayNumber}' : '',
-        style: const TextStyle(
+        day.isValid
+            ? day.monthDayNumber < 10
+                ? '0${day.monthDayNumber}'
+                : '${day.monthDayNumber}'
+            : '',
+        style: TextStyle(
           color: Colors.white,
-          fontWeight: FontWeight.bold
+          fontWeight: isOccupied() ? FontWeight.w900 : FontWeight.w400,
         ),
+      ),
+    );
+  }
+}
+
+class OccupiedDayIndicator extends StatelessWidget {
+  const OccupiedDayIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: AppSizes.defaultDayWidgetOccupiedIndicatorSize,
+      height: AppSizes.defaultDayWidgetOccupiedIndicatorSize,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
       ),
     );
   }
