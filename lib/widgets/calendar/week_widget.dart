@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/pages/day_details/day_details.dart';
+import 'package:iasd_escala/shared/utils.dart';
 import 'package:iasd_escala/shared/sizes.dart';
 import 'package:iasd_escala/widgets/calendar/day_widget.dart';
+import 'package:iasd_escala/shared/extensions.dart';
 
 class WeekWidget extends StatelessWidget {
   final Week week;
@@ -25,19 +28,26 @@ class WeekWidget extends StatelessWidget {
             Day day = week.days[index];
 
             if (day.component != null) {
-              return Expanded(
-                child: Stack(children: [
-                  DayWidget(day: day),
-                  const Positioned(
-                    top: 1.5,
-                    right: 10.5,
-                    child: OccupiedDayIndicator(),
-                  )
-                ]),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSizes.defaultDayWidgetHorizontalPadding),
+                child: InkWell(
+                  onTap: ()=> customLauncher(target: DayDetailsPage(day: day), context: context),
+                  child: Stack(children: [
+                    DayWidget(day: day).putOnHero(tag: 'Day${day.monthDayNumber}'),
+                    const Positioned(
+                      top: 1.5,
+                      right: 10.5,
+                      child: OccupiedDayIndicator(),
+                    )
+                  ]),
+                ),
               );
             }
 
-            return Expanded(child: DayWidget(day: day));
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.defaultDayWidgetHorizontalPadding),
+              child: DayWidget(day: day),
+            );
           },
         ),
       ),

@@ -56,30 +56,32 @@ class DayWidget extends StatelessWidget {
       return false;
     }
 
-    return Container(
-      width: getDayWidgetWidth(),
-      height: day.isValid
-          ? AppSizes.defaultDayWidgetHeight
-          : AppSizes.defaultDayWidgetHeight,
-      margin: getDayWidgetPadding(),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: getDayWidgetColor(),
-        border: isOccupied()
-            ? const Border.fromBorderSide(
-                BorderSide(color: Colors.deepOrange, width: 5),
-              )
-            : null,
-      ),
-      child: Text(
-        day.isValid
-            ? day.monthDayNumber < 10
-                ? '0${day.monthDayNumber}'
-                : '${day.monthDayNumber}'
-            : '',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: isOccupied() ? FontWeight.w900 : FontWeight.w400,
+    return Material(
+      child: Container(
+        width: getDayWidgetWidth(),
+        height: day.isValid
+            ? AppSizes.defaultDayWidgetHeight
+            : AppSizes.defaultDayWidgetHeight,
+        // margin: getDayWidgetPadding(),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: getDayWidgetColor(),
+          border: isOccupied()
+              ? const Border.fromBorderSide(
+                  BorderSide(color: Colors.deepOrange, width: 5),
+                )
+              : null,
+        ),
+        child: Text(
+          day.isValid
+              ? day.monthDayNumber < 10
+                  ? '0${day.monthDayNumber}'
+                  : '${day.monthDayNumber}'
+              : '',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: isOccupied() ? FontWeight.w900 : FontWeight.w400,
+          ),
         ),
       ),
     );
