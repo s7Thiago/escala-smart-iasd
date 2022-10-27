@@ -66,7 +66,6 @@ class DateSelectorWidget extends StatelessWidget {
                               initialItem: provider.selectedMonth - 1),
                           diameterRatio: 10,
                           onSelectedItemChanged: (value) {
-                            print('Value atual: $value');
                             provider.updateMonth = value;
                           },
                           children: [
@@ -119,7 +118,7 @@ class DateSelectorWidget extends StatelessWidget {
                           children: [
                             // Year list part 1
                             ...List.generate(
-                              14,
+                              (provider.yearList.length * .5).ceil() - 1,
                               (index) => Text(
                                 '${provider.yearList[index]}',
                                 style: pickerTextStyle.copyWith(
@@ -131,9 +130,9 @@ class DateSelectorWidget extends StatelessWidget {
 
                             // Year list part 2
                             ...List.generate(
-                              15,
+                               (provider.yearList.length * .5).ceil() + 1,
                               (index) => Text(
-                                '${provider.yearList[14 + index]}',
+                                '${provider.yearList[ ((provider.yearList.length * .5).ceil() - 1) + index]}',
                                 style: pickerTextStyle.copyWith(fontSize: 30),
                               ),
                             )

@@ -1,10 +1,17 @@
+import 'package:hive/hive.dart';
+
 import '../enums/date_names.dart';
 
-class Component {
-  final String name;
-  final List<WeekDayNames> availableDays;
+@HiveType(typeId: 6)
+class Component extends HiveObject{
 
-  const Component({required this.name, required this.availableDays});
+  @HiveField(0)
+  final String name;
+
+  @HiveField(1)
+  List<WeekDayNames> availableDays;
+
+  Component({required this.name, this.availableDays = const []});
 
   @override
   String toString() => 'TeamComponent(name: $name)';

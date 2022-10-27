@@ -17,7 +17,6 @@ class MonthWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            
             /// Generating row with week day names
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.defaultDayWidgetHorizontalPadding),
@@ -25,18 +24,19 @@ class MonthWidget extends StatelessWidget {
                 ...List.generate(
                   7,
                   (index) => Container(
-                    width: AppSizes.defaultDayWidgetWidth + ((((14 * AppSizes.defaultDayWidgetHorizontalPadding) / 7) - 2)),
-                    height: AppSizes.defaultDayWidgetHeight,
+                    width: AppSizes.defaultDayWidgetWidth + ((7 / 4) * AppSizes.defaultDayWidgetHorizontalPadding),
+                    height: AppSizes.defaultDayWidgetHeight * .6,
                     alignment: Alignment.center,
                     margin: const EdgeInsets.symmetric(horizontal: 0),
                     color: Colors.blueGrey,
                     child: Text(
-                      WeekDayNames.values[index].name
+                      WeekDayNames.values[index].ptBrString
                           .substring(0, 3)
                           .toUpperCase(),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontSize: 18
                       ),
                     ),
                   ),

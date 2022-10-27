@@ -49,7 +49,7 @@ class DayWidget extends StatelessWidget {
     }
 
     isOccupied() {
-      if (day.component != null) {
+      if (day.components.isNotEmpty) {
         return true;
       }
 
@@ -81,6 +81,7 @@ class DayWidget extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontWeight: isOccupied() ? FontWeight.w900 : FontWeight.w400,
+            fontSize: 20,
           ),
         ),
       ),

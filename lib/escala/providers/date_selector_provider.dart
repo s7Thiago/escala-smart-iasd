@@ -7,10 +7,10 @@ class DateSelector extends ChangeNotifier {
 
   get selectedMonth => _month + 1;
   get selectedYear => _year;
-  get monthList => List.generate(12, (index) => MonthNames.values[index].name);
-  get yearList => [
-    ...List.generate(15, (index) => DateTime.now().year - index).reversed,
-    ...List.generate(15, (index) => DateTime.now().year + (index + 1))
+  get monthList => List.generate(12, (index) => MonthNames.values[index].ptBrString);
+  get yearList => <int>[
+    ...List.generate(29, (index) => DateTime.now().year - index).reversed,
+    ...List.generate(29, (index) => DateTime.now().year + (index + 1))
   ];
 
   set updateYear(int year) {
@@ -22,5 +22,4 @@ class DateSelector extends ChangeNotifier {
     _month = month.ceil().abs() + (month == 0? 1 : 0);
     notifyListeners();
   }
-
 }

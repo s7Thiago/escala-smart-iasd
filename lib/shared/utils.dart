@@ -12,7 +12,7 @@ customLauncher({
   String? barrierLabel,
   Duration? reverseTransitionDuration,
   RouteSettings? settings,
-  Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+  Widget Function(BuildContext, Animation<dynamic>, Animation<dynamic>, Widget)?
       transitionsBuilder,
 }) {
   Navigator.of(context).push(PageRouteBuilder(

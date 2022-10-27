@@ -13,9 +13,11 @@ extension PowerExtensions on Widget {
   }
 
 putOnHero({required tag}) {
-    return Hero(
-      tag: tag,
-      child: this,
+    return Material(
+      child: Hero(
+        tag: tag,
+        child: this,
+      ),
     );
   }
 
@@ -49,6 +51,37 @@ putOnHero({required tag}) {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+    putFloating({
+    required context,
+    title = 'no title',
+    Color titleColor = Colors.black87,
+    EdgeInsetsGeometry? margin =
+        const EdgeInsets.symmetric(horizontal: 30.0, vertical: 120.0),
+  }) {
+    return Container(
+      margin: margin,
+      child: Material(
+        elevation: 8.0,
+        borderRadius: BorderRadius.circular(10),
+        child: Stack(
+          children: [
+            this,
+            Positioned(
+              top: 10,
+              left: 20,
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: titleColor,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

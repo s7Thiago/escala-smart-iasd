@@ -19,9 +19,10 @@ class HomePage extends StatelessWidget {
       year: dateSelectorProvider.selectedYear,
     );
 
-    debugPrint(month.toString());
+    // debugPrint(month.toString());
 
     return Scaffold(
+      
       appBar: AppBar(
         title: Text('${(month!.name.name.substring(0, 3)).toUpperCase()} / ${month.year}'),
       ),

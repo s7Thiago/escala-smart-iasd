@@ -1,9 +1,18 @@
+import 'package:hive/hive.dart';
+
 import '../enums/date_names.dart';
 import 'component.dart';
 
-class Month {
+@HiveType(typeId: 3)
+class Month extends HiveObject{
+
+  @HiveField(0)
   final MonthNames name;
+
+  @HiveField(1)
   final int year;
+
+  @HiveField(2)
   final List<Week> weeks;
 
   Month({
@@ -37,28 +46,52 @@ class Month {
   String toString() => 'Month(${name.name}\n[$weeks])';
 }
 
-class Week {
+@HiveType(typeId: 4)
+class Week extends HiveObject{
+
+  @HiveField(0)
   final List<Day> days;
+
+  @HiveField(1)
   final int weekIndex;
+
   Week({required this.days, required this.weekIndex});
 
   @override
   String toString() => 'Week[$weekIndex]($days)\n\n';
 }
 
-class Day {
+@HiveType(typeId: 5)
+class Day extends HiveObject{
+
+  @HiveField(0)
   final int weekIndex;
+
+  @HiveField(1)
   final int dayIndexInWeek;
+
+  @HiveField(2)
   final int monthDayNumber;
+
+  @HiveField(3)
   bool isLastDayOfLastWeek;
+
+  @HiveField(4)
   bool isToday;
+
+  @HiveField(5)
   bool isFirstDayOfFirstWeek;
-  Component? component;
+
+  @HiveField(6)
+  List<Component> components;
+
+  @HiveField(7)
   final WeekDayNames weekDayName;
+
   final DateTime? dateTimeRepresentation;
 
   Day({
-    this.component,
+    this.components = const [],
     this.isLastDayOfLastWeek = false,
     this.isFirstDayOfFirstWeek = false,
     this.isToday = false,
@@ -77,5 +110,5 @@ class Day {
   @override
   String toString() => weekDayName == WeekDayNames.invalid
       ? '\nDay( ############ )'
-      : '\nDay($monthDayNumber - ${weekDayName.name} [${component?.name ?? '----'}])';
+      : '\nDay($monthDayNumber - ${weekDayName.name} [${components ?? '----'}])';
 }

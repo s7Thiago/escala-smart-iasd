@@ -105,7 +105,7 @@ class AppDateUtils {
         for (var d in w.days) {
 
           if(d.monthDayNumber % 2 == 0 && d.isValid) {
-            d.component = const Component(name: 'Fulano', availableDays: []);
+            d.components = [Component(name: 'Fulano', availableDays: [WeekDayNames.domingo, WeekDayNames.sabado])];
           }
 
           if(d.isValid){

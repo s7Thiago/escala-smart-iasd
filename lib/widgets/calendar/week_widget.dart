@@ -27,16 +27,16 @@ class WeekWidget extends StatelessWidget {
           (index) {
             Day day = week.days[index];
 
-            if (day.component != null) {
+            if (day.components.isNotEmpty) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSizes.defaultDayWidgetHorizontalPadding),
                 child: InkWell(
-                  onTap: ()=> customLauncher(target: DayDetailsPage(day: day), context: context),
+                  onTap: () => customLauncher(target: DayDetailsPage(day: day), context: context),
                   child: Stack(children: [
                     DayWidget(day: day).putOnHero(tag: 'Day${day.monthDayNumber}'),
                     const Positioned(
-                      top: 1.5,
-                      right: 10.5,
+                      top: 2,
+                      right: 2,
                       child: OccupiedDayIndicator(),
                     )
                   ]),
