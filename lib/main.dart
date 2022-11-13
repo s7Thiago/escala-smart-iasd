@@ -1,13 +1,23 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:iasd_escala/escala/models/component.dart';
 import 'package:iasd_escala/escala/models/hive_adapters.dart';
+import 'package:iasd_escala/escala/providers/component_provider.dart';
 import 'package:iasd_escala/escala/providers/date_selector_provider.dart';
 import 'package:iasd_escala/pages/home/home_page.dart';
+import 'package:iasd_escala/repository/components_repository.dart';
 import 'package:iasd_escala/shared/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:iasd_escala/shared/utils.dart';
+
+Future<Map<String, Box>> getBoxes() async {
+  return {
+    AppDataPaths.components:
+        await Hive.openBox<Component>(AppDataPaths.components),
+    AppDataPaths.escala: await Hive.openBox<Component>(AppDataPaths.escala),
+  };
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,15 +27,22 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  Hive
-  ..init(Directory.current.path)
-    ..registerAdapter(WeekAdapter())
-    ..registerAdapter(DayAdapter())
-    ..registerAdapter(MonthAdapter())
-    ..registerAdapter(ComponentAdapter())
-    ..registerAdapter(WeekDayNamesAdapter());
+  localPath.then((path) async {
+    Hive
+      ..init(path)
+      ..registerAdapter(WeekAdapter())
+      ..registerAdapter(DayAdapter())
+      ..registerAdapter(MonthAdapter())
+      ..registerAdapter(ComponentAdapter())
+      ..registerAdapter(WeekDayNamesAdapter());
 
-  // var components = await Hive.openBox<Component>('components');
+    getBoxes().then((boxes) {
+      debugPrint(
+          'TESTE HIVE: ${(boxes[AppDataPaths.components] as Box<Component>).values}');
+
+      runApp(App(appBoxes: boxes));
+    });
+  });
 
   // Component c = Component(
   //     name: 'Mariana Balde',
@@ -43,24 +60,71 @@ Future<void> main() async {
   // c.save();
 
   // print('Nova chave do modificado: ${c.key}');
-  
-  runApp(const App());
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  final Map<String, Box> appBoxes;
+
+  const App({Key? key, required this.appBoxes}) : super(key: key);
+
+  Future<Map<String, Object>> getRepositories() async {
+    return {
+      AppDataPaths.components: ComponentsRepository(
+        appBoxes[AppDataPaths.components] as Box<Component>,
+      ),
+      // TODO: Add escala repository entry here
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => DateSelector()),
-      ],
-      child: MaterialApp(
-        initialRoute: AppRoutes.home,
-        debugShowCheckedModeBanner: false,
-        routes: {AppRoutes.home: (context) => const HomePage()},
-      ),
+    return FutureBuilder(
+      future: getRepositories(),
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, Object>> snapshot) {
+        if (snapshot.hasData) {
+          Map<String, Object> data = snapshot.data!;
+
+          // Getting Repositories
+          ComponentsRepository componentsRepository =
+              data[AppDataPaths.components] as ComponentsRepository;
+
+          // componentsRepository.clearAll();
+
+          // componentsRepository.insert(
+          //   Component(
+          //       name: 'Mariana Balde',
+          //       availableDays: [WeekDayNames.sabado, WeekDayNames.domingo]),
+          // );
+
+          debugPrint('LISTING: ${componentsRepository.findAll()}');
+
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => DateSelector()),
+              ChangeNotifierProvider(
+                  create: (_) =>
+                      ComponentProvider(repository: componentsRepository)),
+            ],
+            child: MaterialApp(
+              initialRoute: AppRoutes.home,
+              debugShowCheckedModeBanner: false,
+              routes: {
+                AppRoutes.home: (context) => const HomePage(),
+                // AppRoutes.home: (context) => Scaffold(
+                //       body: Center(
+                //         child: Text('TESTE: ${componentsRepository.componentsBox.values.toList()[0].name}'),
+                //       ),
+                // ),
+              },
+            ),
+          );
+        }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

@@ -34,7 +34,7 @@ class DayDetailsPage extends StatelessWidget {
         ),
       ).closeable(context: context),
     ).putFloatingHero(
-      tag: 'Day${day.monthDayNumber}',
+      tag: 'Day${day.monthDayNumber}-${day.dayIndexInWeek}-${day.weekDayName.name}',
       context: context,
       title: 'Detalhes do dia',
       titleColor: Colors.white,

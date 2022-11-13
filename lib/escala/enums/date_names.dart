@@ -32,6 +32,10 @@ enum WeekDayNames {
 
   const WeekDayNames(this.ptBrString);
 
+  WeekDayNames fromPtBrString(String ptBrString) {
+    return WeekDayNames.values.firstWhere((e) => e.ptBrString == ptBrString, orElse: () => invalid);
+  }
+
 }
 
 @HiveType(typeId: 2)

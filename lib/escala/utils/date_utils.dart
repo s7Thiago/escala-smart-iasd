@@ -1,3 +1,4 @@
+
 import 'package:iasd_escala/escala/models/component.dart';
 
 import '../enums/date_names.dart';
@@ -103,7 +104,7 @@ class AppDateUtils {
       final now = DateTime.now();
       for (var w in result.weeks) {
         for (var d in w.days) {
-
+          // Add a mock component to the day
           if(d.monthDayNumber % 2 == 0 && d.isValid) {
             d.components = [Component(name: 'Fulano', availableDays: [WeekDayNames.domingo, WeekDayNames.sabado])];
           }

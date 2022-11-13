@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 customLauncher({
   required Widget target,
@@ -33,9 +34,17 @@ customLauncher({
             Animation<double> secondaryAnimation,
             Widget child,
           ) {
-            return child;
+            return FadeTransition(opacity: animation, child: child);
           },
       pageBuilder: (ctx, _, __) {
         return target;
       }));
+}
+
+isKeyboardHidden(BuildContext context) => MediaQuery.of(context).viewInsets.bottom == 0;
+
+Future<String> get localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  return directory.path;
 }

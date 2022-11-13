@@ -85,7 +85,7 @@ class ComponentAdapter extends TypeAdapter<Component> {
   Component read(BinaryReader reader) {
     Component c = Component(
       name: reader.read(),
-      availableDays: reader.read(),
+      availableDays: (reader.read() as List).cast<WeekDayNames>(),
     );
 
     return c;

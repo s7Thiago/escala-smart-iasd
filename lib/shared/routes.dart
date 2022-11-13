@@ -10,3 +10,8 @@ class AppRoutes {
   static const dayDetails = '/day-details';
 
 }
+
+class AppDataPaths {
+  static const String components = 'components';
+  static const String escala = 'escala';
+}

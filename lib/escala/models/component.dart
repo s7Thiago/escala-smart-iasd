@@ -1,12 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
 import '../enums/date_names.dart';
 
 @HiveType(typeId: 6)
-class Component extends HiveObject{
+class Component extends HiveObject with ChangeNotifier {
 
   @HiveField(0)
-  final String name;
+  String name;
 
   @HiveField(1)
   List<WeekDayNames> availableDays;
@@ -15,4 +16,9 @@ class Component extends HiveObject{
 
   @override
   String toString() => 'TeamComponent(name: $name)';
+
+  updateName(String newName) {
+    name = newName;
+    notifyListeners();
+  }
 }

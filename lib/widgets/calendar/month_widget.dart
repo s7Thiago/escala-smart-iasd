@@ -20,7 +20,9 @@ class MonthWidget extends StatelessWidget {
             /// Generating row with week day names
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.defaultDayWidgetHorizontalPadding),
-              child: Row(children: [
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                 ...List.generate(
                   7,
                   (index) => Container(
