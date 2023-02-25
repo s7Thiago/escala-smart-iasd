@@ -1,7 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:iasd_escala/escala/enums/date_names.dart';
-import 'package:iasd_escala/escala/models/component.dart';
-import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
+import 'package:iasd_escala/escala/models/day_model.dart';
+import 'package:iasd_escala/escala/models/month_model.dart';
+import 'package:iasd_escala/escala/models/week_model.dart';
 
 class MonthAdapter extends TypeAdapter<Month> {
   @override

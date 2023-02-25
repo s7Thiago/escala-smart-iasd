@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iasd_escala/escala/enums/date_names.dart';
-import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/escala/models/month_model.dart';
+import 'package:iasd_escala/escala/providers/date_selector_provider.dart';
 import 'package:iasd_escala/shared/sizes.dart';
 import 'package:iasd_escala/widgets/calendar/week_widget.dart';
+import 'package:provider/provider.dart';
 
 class MonthWidget extends StatelessWidget {
   final Month month;
@@ -11,6 +13,10 @@ class MonthWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final provider = Provider.of<DateSelectorProvider>(context, listen: true);
+    Month currentMonth = provider.updateMonthDayDetails();
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -47,8 +53,8 @@ class MonthWidget extends StatelessWidget {
             ),
 
             /// Generating weeks
-            ...List.generate(month.weeks.length,
-                (index) => WeekWidget(week: month.weeks[index]))
+            ...List.generate(currentMonth.weeks.length,
+                (index) => WeekWidget(week: currentMonth.weeks[index]))
           ],
         ),
       ),

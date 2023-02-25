@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iasd_escala/escala/models/component.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
 import 'package:iasd_escala/escala/providers/component_provider.dart';
 import 'package:iasd_escala/widgets/component/component_available_day_selector_widget.dart';
 import 'package:iasd_escala/widgets/ui/app_fab.dart';

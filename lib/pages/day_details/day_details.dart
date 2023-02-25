@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iasd_escala/escala/models/component.dart';
-import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
+import 'package:iasd_escala/escala/models/day_model.dart';
 import 'package:iasd_escala/escala/providers/date_selector_provider.dart';
 import 'package:iasd_escala/shared/extensions.dart';
 import 'package:iasd_escala/widgets/component/component_widget.dart';
@@ -14,7 +14,7 @@ class DayDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateSelectorProvider =
-        Provider.of<DateSelector>(context, listen: true);
+        Provider.of<DateSelectorProvider>(context, listen: true);
 
     return SizedBox(
       child: Scaffold(

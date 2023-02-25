@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/escala/models/day_model.dart';
 import 'package:iasd_escala/pages/day_details/day_details.dart';
 import 'package:iasd_escala/shared/sizes.dart';
 import 'package:iasd_escala/shared/utils.dart';
@@ -65,8 +65,8 @@ class DayWidget extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: InkWell(
-            onTap: () => customLauncher(
-                target: DayDetailsPage(day: day), context: context),
+            onTap: day.isValid? () => customLauncher(
+                target: DayDetailsPage(day: day), context: context) : null,
             child: Container(
               width: getDayWidgetWidth(),
               height: day.isValid

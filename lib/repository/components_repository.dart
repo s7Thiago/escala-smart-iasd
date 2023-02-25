@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:iasd_escala/escala/models/component.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
 
 class ComponentsRepository {
   final Box<Component> componentsBox;
@@ -27,7 +27,6 @@ class ComponentsRepository {
 
   bool insert(Component component) {
     try {
-      var l = findAll();
       componentsBox.put(component.name, component);
     } catch (e) {
       return false;

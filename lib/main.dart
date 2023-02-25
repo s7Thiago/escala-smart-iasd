@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:iasd_escala/escala/models/component.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
 import 'package:iasd_escala/escala/models/hive_adapters.dart';
 import 'package:iasd_escala/escala/providers/component_provider.dart';
 import 'package:iasd_escala/escala/providers/date_selector_provider.dart';
+import 'package:iasd_escala/escala/providers/home_navigation_provider.dart';
+import 'package:iasd_escala/escala/providers/selected_list_navigation_provider.dart';
 import 'package:iasd_escala/pages/home/home_page.dart';
 import 'package:iasd_escala/repository/components_repository.dart';
 import 'package:iasd_escala/shared/routes.dart';
-import 'package:provider/provider.dart';
 import 'package:iasd_escala/shared/utils.dart';
+import 'package:provider/provider.dart';
 
 Future<Map<String, Box>> getBoxes() async {
   return {
@@ -37,29 +39,9 @@ Future<void> main() async {
       ..registerAdapter(WeekDayNamesAdapter());
 
     getBoxes().then((boxes) {
-      debugPrint(
-          'TESTE HIVE: ${(boxes[AppDataPaths.components] as Box<Component>).values}');
-
       runApp(App(appBoxes: boxes));
     });
   });
-
-  // Component c = Component(
-  //     name: 'Mariana Balde',
-  //     availableDays: [WeekDayNames.sabado, WeekDayNames.domingo]);
-  // print('Acabou de criar: $c');
-
-  // print('Quantidade de componentes antes de salvar: ${components.length}');
-  // components.add(c);
-  // print('Primeira chave do adicionado: ${c.key}');
-
-  // print('Quantidade de componentes depois de salvar: ${components.length}');
-
-  // c.availableDays = [WeekDayNames.segunda];
-  // print('Modificado agora$c');
-  // c.save();
-
-  // print('Nova chave do modificado: ${c.key}');
 }
 
 class App extends StatelessWidget {
@@ -89,33 +71,18 @@ class App extends StatelessWidget {
           ComponentsRepository componentsRepository =
               data[AppDataPaths.components] as ComponentsRepository;
 
-          // componentsRepository.clearAll();
-
-          // componentsRepository.insert(
-          //   Component(
-          //       name: 'Mariana Balde',
-          //       availableDays: [WeekDayNames.sabado, WeekDayNames.domingo]),
-          // );
-
-          debugPrint('LISTING: ${componentsRepository.findAll()}');
-
           return MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => DateSelector()),
-              ChangeNotifierProvider(
-                  create: (_) =>
-                      ComponentProvider(repository: componentsRepository)),
+              ChangeNotifierProvider(create: (_) => DateSelectorProvider()),
+              ChangeNotifierProvider(create: (_) =>ComponentProvider(repository: componentsRepository)),
+              ChangeNotifierProvider(create: (_) => HomeNavigationProvider()),
+              ChangeNotifierProvider(create: (_) => SelectedListNavigationProvider()),
             ],
             child: MaterialApp(
               initialRoute: AppRoutes.home,
               debugShowCheckedModeBanner: false,
               routes: {
                 AppRoutes.home: (context) => const HomePage(),
-                // AppRoutes.home: (context) => Scaffold(
-                //       body: Center(
-                //         child: Text('TESTE: ${componentsRepository.componentsBox.values.toList()[0].name}'),
-                //       ),
-                // ),
               },
             ),
           );

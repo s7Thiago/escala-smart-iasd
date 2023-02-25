@@ -9,7 +9,7 @@ class DateSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<DateSelector>(context, listen: true);
+    final provider = Provider.of<DateSelectorProvider>(context, listen: true);
     const double height = 250.0;
 
     TextStyle pickerTextStyle = const TextStyle(
@@ -66,7 +66,7 @@ class DateSelectorWidget extends StatelessWidget {
                               initialItem: provider.selectedMonth - 1),
                           diameterRatio: 10,
                           onSelectedItemChanged: (value) {
-                            provider.updateMonth = value;
+                            provider.updateMonth = value + 1;
                           },
                           children: [
                             ...List.generate(
@@ -110,7 +110,7 @@ class DateSelectorWidget extends StatelessWidget {
                           itemExtent: 45,
                           offAxisFraction: -8,
                           scrollController:
-                              FixedExtentScrollController(initialItem: 14),
+                              FixedExtentScrollController(initialItem: provider.yearList.indexOf(provider.selectedYear)),
                           diameterRatio: 10,
                           onSelectedItemChanged: (value) => {
                             provider.updateYear = provider.yearList[value],

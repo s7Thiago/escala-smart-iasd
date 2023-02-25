@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/escala/models/day_model.dart';
+import 'package:iasd_escala/escala/models/week_model.dart';
+import 'package:iasd_escala/shared/extensions.dart';
 import 'package:iasd_escala/shared/sizes.dart';
 import 'package:iasd_escala/widgets/calendar/day_widget.dart';
-import 'package:iasd_escala/shared/extensions.dart';
 
 class WeekWidget extends StatelessWidget {
   final Week week;

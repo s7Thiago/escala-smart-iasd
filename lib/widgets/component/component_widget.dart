@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iasd_escala/escala/models/component.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
 import 'package:iasd_escala/pages/component/edit_component.dart';
 import 'package:iasd_escala/shared/utils.dart';
 

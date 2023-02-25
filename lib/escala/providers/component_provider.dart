@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:iasd_escala/escala/enums/date_names.dart';
-import 'package:iasd_escala/escala/models/component.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
 import 'package:iasd_escala/repository/components_repository.dart';
 
 class ComponentProvider extends ChangeNotifier {

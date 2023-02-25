@@ -1,32 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:iasd_escala/escala/models/month_models.dart';
+import 'package:iasd_escala/escala/enums/date_names.dart';
+import 'package:iasd_escala/escala/models/component_model.dart';
+import 'package:iasd_escala/escala/models/month_model.dart';
 import 'package:iasd_escala/escala/providers/date_selector_provider.dart';
-import 'package:iasd_escala/escala/utils/date_utils.dart';
+import 'package:iasd_escala/escala/providers/home_navigation_provider.dart';
 import 'package:iasd_escala/pages/component/components_list.dart';
+import 'package:iasd_escala/pages/home/selected_list.dart';
 import 'package:iasd_escala/shared/utils.dart';
 import 'package:iasd_escala/widgets/calendar/date_selector_widget/date_selector_widget.dart';
 import 'package:iasd_escala/widgets/calendar/month_widget.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+      //Animations
+    late Month? month;
+    late AnimationController dateSelectorAnimationController;
+    late Animation<double> dateSelectorAnimation;
+    bool hideBottomPanel = false;
+
+      @override
+    void initState() {
+      super.initState();
+
+      month = Month(name: MonthNames.invalid, weeks: [], year: 0);
+
+      dateSelectorAnimationController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 400),
+      );
+
+      dateSelectorAnimation = Tween<double>(begin: 0, end: 300).animate(
+        CurvedAnimation(
+          parent: dateSelectorAnimationController,
+          curve: Curves.easeInOutQuad,
+        ),
+      )..addStatusListener((status) {
+          // switch (status) {
+          //   case AnimationStatus.completed:
+          //     if (!hideBottomPanel) {
+          //       dateSelectorAnimationController.forward();
+          //     }
+          //     break;
+          //   case AnimationStatus.dismissed:
+          //     if (hideBottomPanel) {
+          //       dateSelectorAnimationController.reverse();
+          //     }
+          //     break;
+
+          //   default:
+          //     break;
+          // }
+        });
+    }
+
+    @override
+    void dispose() {
+      super.dispose();
+      dateSelectorAnimationController.dispose();
+    }
 
   @override
   Widget build(BuildContext context) {
     final dateSelectorProvider =
-        Provider.of<DateSelector>(context, listen: true);
+        Provider.of<DateSelectorProvider>(context, listen: true);
+        
+    final provider = Provider.of<HomeNavigationProvider>(context, listen: true);
+    PageController pageController = PageController(initialPage: 0);
 
-    Month? month = AppDateUtils.buildMonth(
-      month: dateSelectorProvider.selectedMonth,
-      year: dateSelectorProvider.selectedYear,
-    );
+    // Month? month = AppDateUtils.buildMonth(
+    //   month: dateSelectorProvider.selectedMonth,
+    //   year: dateSelectorProvider.selectedYear,
+    // );
+
+    month = dateSelectorProvider.updateMonthDayDetails();
 
     // debugPrint(month.toString());
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            '${(month!.name.name.substring(0, 3)).toUpperCase()} / ${month.year}'),
+            '${(month!.name.name.substring(0, 3)).toUpperCase()} / ${month!.year}'),
         actions: [
           IconButton(
             onPressed: () {
@@ -43,16 +102,69 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             // Calendar
-            MonthWidget(month: month),
+            Expanded(
+              child: PageView(
+                controller: pageController,
+                scrollDirection: Axis.vertical,
+                onPageChanged: (pageIndex) {
+                  provider.updateHomePageIndex(pageIndex);
+                  hideBottomPanel = provider.hideBottomPanel;
 
-            const Spacer(),
+                  if (hideBottomPanel) {
+                    dateSelectorAnimationController.reverse();
+                  } else {
+                    dateSelectorAnimationController.forward();
+                  }
+
+                },
+                children: [
+                  Stack(
+                    children: [
+                      MonthWidget(month: month!),
+                      Positioned(
+                        bottom: 16,
+                        right: 16,
+                        child: FloatingActionButton(
+                        child: const Icon(Icons.settings_backup_restore_rounded),
+                          onPressed: ()async {
+                            // dateSelectorProvider.updateListeners();
+
+                            month?.allDays[22].components.add(Component(name: 'Teste'));
+
+                              month = dateSelectorProvider.updateMonthDayDetails(month: month, update: true);
+                              dateSelectorProvider.updateListeners();
+                        // componentProvider.updateListeners();
+                          },),
+                      )
+                    ],
+                  ),
+                  SelectedList(month: month!, pageController: pageController, mediaQuery: MediaQuery.of(context),)
+                ],
+              ),
+            ),
+
+            // const Spacer(),
 
             // Year / Month Selector
-            const DateSelectorWidget()
+            // if (provider.hideBottomPanel)
+            AnimatedBuilder(
+              animation: dateSelectorAnimation,
+              builder: (context, child) {
+
+                if(dateSelectorAnimationController.isCompleted) {
+                  return const SizedBox();
+                }
+
+
+                return Transform.translate(
+                offset: Offset(0, dateSelectorAnimation.value ),
+                child: const DateSelectorWidget());
+              },
+            )
           ],
         ),
       ),
