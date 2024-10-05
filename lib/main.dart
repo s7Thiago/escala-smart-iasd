@@ -68,13 +68,12 @@ class App extends StatelessWidget {
           Map<String, Object> data = snapshot.data!;
 
           // Getting Repositories
-          ComponentsRepository componentsRepository =
-              data[AppDataPaths.components] as ComponentsRepository;
+          ComponentsRepository componentsRepository = data[AppDataPaths.components] as ComponentsRepository;
 
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (_) => DateSelectorProvider()),
-              ChangeNotifierProvider(create: (_) =>ComponentProvider(repository: componentsRepository)),
+              ChangeNotifierProvider(create: (_) => ComponentProvider(repository: componentsRepository)),
               ChangeNotifierProvider(create: (_) => HomeNavigationProvider()),
               ChangeNotifierProvider(create: (_) => SelectedListNavigationProvider()),
             ],

@@ -91,7 +91,7 @@ class AppDateUtils {
     int weekEndDaysCount =
         (7 - weeks.last.days.last.dateTimeRepresentation!.weekday - 1).abs();
     weeks.last.days.addAll(List.generate(
-        weekEndDaysCount,
+        7 - weeks.last.days.length,
         (index) => Day(
               monthDayNumber: 0,
               weekDayName: NameUtils.getWeekDayName(0),

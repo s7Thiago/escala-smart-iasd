@@ -17,10 +17,10 @@ class WeekWidget extends StatelessWidget {
       color: Colors.transparent,
       margin: EdgeInsets.only(
         top: AppSizes.defaultWeekWidgetVerticalMargin,
-        left: week.weekIndex > 3? 8 : 0
+        left: week.weekIndex > 4? 8 : 0
       ),
       child: Row(
-        mainAxisAlignment: week.weekIndex > 3? MainAxisAlignment.start: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           week.days.length,
           (index) {

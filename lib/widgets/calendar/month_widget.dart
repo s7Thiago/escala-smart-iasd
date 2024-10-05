@@ -41,7 +41,7 @@ class MonthWidget extends StatelessWidget {
                       WeekDayNames.values[index].ptBrString
                           .substring(0, 3)
                           .toUpperCase(),
-                      style: const TextStyle(
+                        style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18
