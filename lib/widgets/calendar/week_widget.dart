@@ -27,7 +27,7 @@ class WeekWidget extends StatelessWidget {
             Day day = week.days[index];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.defaultDayWidgetHorizontalPadding),
-              child: day.isValid? DayWidget(day: day).putOnHero(tag: 'Day${day.monthDayNumber}-${day.dayIndexInWeek}-${day.weekDayName.name}'): DayWidget(day: day),
+              child: day.isValid? DayWidget(day: day).putOnHero(tag: 'Day${day.toString()}'): DayWidget(day: day),
             );
           },
         ),

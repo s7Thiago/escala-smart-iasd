@@ -44,6 +44,7 @@ class _ComponentWidgetState extends State<ComponentWidget>
     return Padding(
       padding: const EdgeInsets.all(16),
       child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

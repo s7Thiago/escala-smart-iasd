@@ -13,7 +13,7 @@ class DayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     getDayWidgetColor() {
       if (day.isValid) {
-        if (day.isToday) return Colors.purpleAccent;
+        if (day.isToday) return Colors.pink;
 
         if (day.isWeekend) return Colors.blueGrey;
         return Colors.blue;
@@ -66,7 +66,8 @@ class DayWidget extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: InkWell(
             onTap: day.isValid? () => customLauncher(
-                target: DayDetailsPage(day: day), context: context) : null,
+              fullscreenDialog: true,
+                target: DayDetailsPage(day: day), context: context,barrierColor: Colors.black87) : null,
             child: Container(
               width: getDayWidgetWidth(),
               height: day.isValid
@@ -99,7 +100,7 @@ class DayWidget extends StatelessWidget {
           ),
         ),
 
-        if(day.components.isNotEmpty)
+        if(day.components.isNotEmpty && day.isValid)
         const Positioned(
           top: 5,
           right: 5,

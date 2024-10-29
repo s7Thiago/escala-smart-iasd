@@ -1,4 +1,4 @@
-package com.example.iasd_escala
+package com.example.escala_smart_iasd
 
 import io.flutter.embedding.android.FlutterActivity
 

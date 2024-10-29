@@ -1,6 +1,6 @@
 {
-    "name": "iasd_escala",
-    "short_name": "iasd_escala",
+    "name": "escala_smart_iasd",
+    "short_name": "escala_smart_iasd",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

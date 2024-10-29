@@ -73,9 +73,9 @@ class App extends StatelessWidget {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (_) => DateSelectorProvider()),
-              ChangeNotifierProvider(create: (_) => ComponentProvider(repository: componentsRepository)),
               ChangeNotifierProvider(create: (_) => HomeNavigationProvider()),
               ChangeNotifierProvider(create: (_) => SelectedListNavigationProvider()),
+              ChangeNotifierProvider(create: (_) => ComponentProvider(repository: componentsRepository)),
             ],
             child: MaterialApp(
               initialRoute: AppRoutes.home,
